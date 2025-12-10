@@ -2,19 +2,19 @@ import os, csv, requests
 
 BASE_URL = "http://localhost:11434/v1/chat/completions"
 HEADERS = {
-    "Authorization": "Bearer ollama",   # any non-empty string is fine
+    "Authorization": "Bearer ollama",
     "Content-Type": "application/json",
 }
-MODEL_NAME = "llama3.2:3b"              # or the exact tag you pulled (see `ollama list`)
+MODEL_NAME = "llama3.2:3b"              
 
 
 attributes = ["rdiscr_rgroup", "rdiscr_nonsen_group", "nonsen_discr_rgroup"]
 num_runs = 1
 
 for attribute in attributes:
-    csv_filename = f"{attribute}_questions.csv"   # expects headers: id,prompt
+    csv_filename = f"{attribute}_questions.csv"   
 
-    # read prompts
+  
     prompts = []
     with open(csv_filename, "r", encoding="utf-8", newline="") as f:
         rdr = csv.DictReader(f)
@@ -22,7 +22,7 @@ for attribute in attributes:
         for row in rdr:
             prompts.append((row["id"].strip(), row["prompt"].strip()))
 
-    # write answers
+
     os.makedirs("answers", exist_ok=True)
     for run in range(1, num_runs + 1):
         output_filename = f"{attribute}_answers_llama{run}.csv"
